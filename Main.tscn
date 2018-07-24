@@ -1,0 +1,9 @@
+[gd_scene format=2]
+
+[node name="Main" type="Node" index="0"]
+
+[node name="StartPosition" type="Position2D" parent="." index="0"]
+
+position = Vector2( 540, 260 )
+
+

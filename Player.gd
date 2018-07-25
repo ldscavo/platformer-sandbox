@@ -1,10 +1,12 @@
 extends KinematicBody2D
 
-export (int) var speed
-export (int) var jumpHeight
-
-const GRAVITY = 200.0
+const WALKSPEED = 250.0
+const JUMPSPEED = 450.0
+const GRAVITY = 500.0
 var velocity = Vector2()
+
+var airtime = 0
+var can_jump = false
 
 var screensize
 
@@ -12,24 +14,42 @@ func _ready():
     screensize = get_viewport_rect().size    
 
 func _process(delta):
-    var velocity = Vector2() # The player's movement vector.
-    if Input.is_action_pressed("ui_right"):
-        velocity.x += 1
-    if Input.is_action_pressed("ui_left"):
-        velocity.x -= 1
-        
-    if velocity.length() > 0:
-        velocity = velocity.normalized() * speed
-    
-    position += velocity * delta
-    position.x = clamp(position.x, 0, screensize.x)
-    position.y = clamp(position.y, 0, screensize.y)
+    pass
 
 func _physics_process(delta):
     velocity.y += delta * GRAVITY
     
-    var motion = velocity * delta
-    move_and_collide(motion)
+    velocity = move_and_slide(velocity, Vector2(0, -1))
+    
+    airtime += delta
+    
+    if is_on_floor():
+        airtime = 0
+    
+    if Input.is_action_pressed("player_left"):
+        velocity.x = -WALKSPEED
+    elif Input.is_action_pressed("player_right"):
+        velocity.x = WALKSPEED
+    else:
+        velocity.x = 0
+    
+    can_jump = airtime < 0.5
+    
+    if can_jump and Input.is_action_just_pressed("player_jump"):
+        jump()
+    
+    if Input.is_action_just_released("player_jump"):
+        end_jump()
+
 
 func start(pos):
     position = pos
+
+func jump():
+    can_jump = false
+    velocity.y -= JUMPSPEED
+
+func end_jump():
+    if velocity.y <= -100:
+        velocity.y = -100
+    

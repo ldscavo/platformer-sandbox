@@ -1,12 +1,14 @@
 extends KinematicBody2D
 
-const WALKSPEED = 250.0
+const WALKSPEED = 150.0
+const SPRINTSPEED = 400.0
 const JUMPSPEED = 450.0
 const GRAVITY = 500.0
 var velocity = Vector2()
 
 var airtime = 0
 var can_jump = false
+var is_jumping = false
 
 var screensize
 
@@ -25,15 +27,20 @@ func _physics_process(delta):
     
     if is_on_floor():
         airtime = 0
+        is_jumping = false
+    
+    var speed = WALKSPEED
+    if Input.is_action_pressed("player_sprint"):
+        speed = SPRINTSPEED
     
     if Input.is_action_pressed("player_left"):
-        velocity.x = -WALKSPEED
+        velocity.x = -speed
     elif Input.is_action_pressed("player_right"):
-        velocity.x = WALKSPEED
+        velocity.x = speed
     else:
         velocity.x = 0
     
-    can_jump = airtime < 0.5
+    can_jump = airtime < 0.4
     
     if can_jump and Input.is_action_just_pressed("player_jump"):
         jump()
@@ -47,6 +54,7 @@ func start(pos):
 
 func jump():
     can_jump = false
+    is_jumping = true
     velocity.y -= JUMPSPEED
 
 func end_jump():

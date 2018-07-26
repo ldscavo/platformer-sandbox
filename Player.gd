@@ -13,7 +13,8 @@ var is_jumping = false
 var screensize
 
 func _ready():
-    screensize = get_viewport_rect().size    
+    screensize = get_viewport_rect().size
+    $SprintTrail.emitting = false    
 
 func _process(delta):
     pass
@@ -28,6 +29,11 @@ func _physics_process(delta):
     if is_on_floor():
         airtime = 0
         is_jumping = false
+    
+    if Input.is_action_just_pressed("player_sprint"):
+        $SprintTrail.emitting = true
+    elif Input.is_action_just_released("player_sprint"):
+        $SprintTrail.emitting = false
     
     var speed = WALKSPEED
     if Input.is_action_pressed("player_sprint"):

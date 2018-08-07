@@ -30,11 +30,11 @@ func _physics_process(delta):
         in_air = true
 
     if Input.is_action_pressed("player_left"):
-        velocity.x = -SPEED
+        if velocity.x > -SPEED:
+            velocity.x -= 100
     elif Input.is_action_pressed("player_right"):
-        velocity.x = SPEED
-    else:
-        velocity.x = 0
+        if velocity.x < SPEED:
+            velocity.x += 100
 
     velocity = move_and_slide(velocity, Vector2(0, 1))
 

@@ -1,6 +1,7 @@
 extends KinematicBody2D
 
-const SPEED = 500.0
+const ACCELERATION = 100.0
+const MAXSPEED = 500.0
 const JUMPSPEED = 400.0
 const GRAVITY = 500.0
 var velocity = Vector2()
@@ -13,7 +14,6 @@ var screensize
 
 func _ready():
     screensize = get_viewport_rect().size
-    #$SprintTrail.emitting = false
 
 func _process(delta):
     pass
@@ -30,11 +30,11 @@ func _physics_process(delta):
         in_air = true
 
     if Input.is_action_pressed("player_left"):
-        if velocity.x > -SPEED:
-            velocity.x -= 100
+        if velocity.x > -MAXSPEED:
+            velocity.x -= ACCELERATION
     elif Input.is_action_pressed("player_right"):
-        if velocity.x < SPEED:
-            velocity.x += 100
+        if velocity.x < MAXSPEED:
+            velocity.x += ACCELERATION
 
     velocity = move_and_slide(velocity, Vector2(0, 1))
 
@@ -43,4 +43,3 @@ func _physics_process(delta):
 
 func start(pos):
     position = pos
-

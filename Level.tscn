@@ -5,7 +5,7 @@
 [ext_resource path="res://StartPosition.gd" type="Script" id=3]
 [ext_resource path="res://Player.tscn" type="PackedScene" id=4]
 
-[node name="Node" type="Node"]
+[node name="Node" type="Node" index="0"]
 
 script = ExtResource( 1 )
 
@@ -32,7 +32,7 @@ _sections_unfolded = [ "Cell" ]
 
 [node name="StartPosition" type="Position2D" parent="TileMap" index="0"]
 
-position = Vector2( 500, 450 )
+position = Vector2( 424.5, 401 )
 script = ExtResource( 3 )
 _sections_unfolded = [ "Transform" ]
 

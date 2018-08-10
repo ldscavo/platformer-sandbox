@@ -7,16 +7,7 @@ const GRAVITY = 500.0
 var velocity = Vector2()
 
 var airtime = 0
-var grounded = false
 var in_air = false
-
-var screensize
-
-func _ready():
-    screensize = get_viewport_rect().size
-
-func _process(delta):
-    pass
 
 func _physics_process(delta):
     velocity.y += delta * GRAVITY
@@ -37,8 +28,6 @@ func _physics_process(delta):
             velocity.x += ACCELERATION
 
     velocity = move_and_slide(velocity, Vector2(0, 1))
-
-    grounded = airtime < 0.1
 
 
 func start(pos):
